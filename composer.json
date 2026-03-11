@@ -1,0 +1,20 @@
+{
+    "name": "sce/casas-jewels-vendor",
+    "version": "1.0.0",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Sce\\CasasJewelsVendor\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Penguin",
+            "email": "g3casas@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/serializer": "^8.0",
+        "guzzlehttp/guzzle": "^7.10"
+    }
+}
