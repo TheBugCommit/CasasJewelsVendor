@@ -7,7 +7,7 @@ use Sce\CasasJewelsVendor\DTO\Entity\ProductDTO;
 final class GetProductListResponseDTO
 {
     /**
-     * @param ProductDTO[] $data
+     * @param ProductDTO[] $items
      */
     public function __construct(
         public readonly array $items,
