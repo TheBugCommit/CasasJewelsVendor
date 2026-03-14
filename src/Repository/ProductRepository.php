@@ -47,6 +47,6 @@ final class ProductRepository extends AbstractRepository
         ]);
 
         $jsonResponse = $response->getBody()->getContents();
-        return $this->serializer->deserialize($jsonResponse, GetProductDetailRequestDTO::class, 'json');
+        return $this->serializer->deserialize($jsonResponse, GetProductDetailResponseDTO::class, 'json');
     }
 }
