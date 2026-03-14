@@ -2,15 +2,14 @@
 
 namespace Sce\CasasJewelsVendor\Repository;
 
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\RequestException;
+use Sce\CasasJewelsVendor\DTO\ErrorResponseDTO;
 use Sce\CasasJewelsVendor\DTO\Requests\QueryProducts\GetProductListRequestDTO;
 use Sce\CasasJewelsVendor\DTO\Requests\QueryProducts\GetProductListResponseDTO;
 use Sce\CasasJewelsVendor\DTO\Requests\QueryProducts\GetProductDetailRequestDTO;
 use Sce\CasasJewelsVendor\DTO\Requests\QueryProducts\GetProductDetailResponseDTO;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Symfony\Component\Serializer\SerializerInterface;
 
 final class ProductRepository extends AbstractRepository
 {
@@ -18,35 +17,52 @@ final class ProductRepository extends AbstractRepository
      * @throws ExceptionInterface
      * @throws GuzzleException
      */
-    public function getProductList(GetProductListRequestDTO $request): GetProductListResponseDTO
+    public function getProductList(GetProductListRequestDTO $request): GetProductListResponseDTO|ErrorResponseDTO
     {
         $queryParams = $this->normalizer->normalize($request);
-        $response = $this->client->get('/api/products', [
-            'headers' => [
-                'Accept' => 'application/json',
-            ],
-            'query' => $queryParams,
-        ]);
+        try {
+            $response = $this->client->get('/api/products', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                ],
+                'query' => $queryParams,
+            ]);
 
-        $jsonResponse = $response->getBody()->getContents();
-        return $this->serializer->deserialize($jsonResponse, GetProductListResponseDTO::class, 'json');
+            $jsonResponse = $response->getBody()->getContents();
+            return $this->serializer->deserialize($jsonResponse, GetProductListResponseDTO::class, 'json');
+        } catch (RequestException $e) {
+            $errorJson = $e->getResponse()?->getBody()?->getContents();
+            if (!$errorJson) {
+                return new ErrorResponseDTO(500, 'Connection Error.');
+            }
+            return $this->serializer->deserialize($errorJson, ErrorResponseDTO::class, 'json');
+        }
+
     }
 
     /**
      * @throws ExceptionInterface
      * @throws GuzzleException
      */
-    public function getProductDetail(GetProductDetailRequestDTO $request): GetProductDetailResponseDTO
+    public function getProductDetail(GetProductDetailRequestDTO $request): GetProductDetailResponseDTO|ErrorResponseDTO
     {
         $queryParams = $this->normalizer->normalize($request);
-        $response = $this->client->get('/api/product', [
-            'headers' => [
-                'Accept' => 'application/json',
-            ],
-            'query' => $queryParams,
-        ]);
+        try {
+            $response = $this->client->get('/api/product', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                ],
+                'query' => $queryParams,
+            ]);
 
-        $jsonResponse = $response->getBody()->getContents();
-        return $this->serializer->deserialize($jsonResponse, GetProductDetailResponseDTO::class, 'json');
+            $jsonResponse = $response->getBody()->getContents();
+            return $this->serializer->deserialize($jsonResponse, GetProductDetailResponseDTO::class, 'json');
+        } catch (RequestException $e) {
+            $errorJson = $e->getResponse()?->getBody()?->getContents();
+            if (!$errorJson) {
+                return new ErrorResponseDTO(500, 'Connection Error.');
+            }
+            return $this->serializer->deserialize($errorJson, ErrorResponseDTO::class, 'json');
+        }
     }
 }
