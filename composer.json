@@ -15,6 +15,7 @@
     ],
     "require": {
         "symfony/serializer": "^8.0",
-        "guzzlehttp/guzzle": "^7.10"
+        "guzzlehttp/guzzle": "^7.10",
+        "symfony/validator": "^8.0"
     }
 }
