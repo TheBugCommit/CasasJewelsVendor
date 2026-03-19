@@ -22,9 +22,7 @@ final class ProductRepository extends AbstractRepository
         $queryParams = $this->normalizer->normalize($request);
         try {
             $response = $this->client->get('/api/products', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                ],
+                'headers' => $this->headers,
                 'query' => $queryParams,
             ]);
 
@@ -49,9 +47,7 @@ final class ProductRepository extends AbstractRepository
         $queryParams = $this->normalizer->normalize($request);
         try {
             $response = $this->client->get('/api/product', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                ],
+                'headers' => $this->headers,
                 'query' => $queryParams,
             ]);
 

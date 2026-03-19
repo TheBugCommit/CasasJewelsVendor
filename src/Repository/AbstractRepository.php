@@ -10,6 +10,7 @@ class AbstractRepository
 {
     protected string $url;
     protected string $apiKey;
+    protected array $headers;
     protected SerializerInterface $serializer;
     protected NormalizerInterface $normalizer;
 
@@ -23,5 +24,9 @@ class AbstractRepository
         $this->serializer = $serializer;
         $this->normalizer = $normalizer;
         $this->client = new Client(['base_uri' => $url]);
+        $this->headers = [
+            'Accept' => 'application/json',
+            'X-API-KEY' => $this->apiKey,
+        ];
     }
 }
