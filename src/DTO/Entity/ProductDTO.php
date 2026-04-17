@@ -11,5 +11,7 @@ final class ProductDTO
         public readonly string  $description,
         public readonly string  $category,
         public readonly ?string $imageUrl = null,
+        public readonly int     $preparationDays = 0,
+        public readonly int     $shippingDays = 0,
     ) {}
 }

@@ -21,6 +21,12 @@ final class CreateProductRequestDTO
         #[Assert\NotBlank(message: "La categoria és obligatòria.")]
         public readonly string  $category,
 
+        #[Assert\PositiveOrZero(message: "Els dies de preparació han de ser 0 o més.")]
+        public readonly int     $preparationDays = 0,
+
+        #[Assert\PositiveOrZero(message: "Els dies d'enviament han de ser 0 o més.")]
+        public readonly int     $shippingDays = 0,
+
         public readonly ?string $imageUrl = null,
     ) {}
 }
