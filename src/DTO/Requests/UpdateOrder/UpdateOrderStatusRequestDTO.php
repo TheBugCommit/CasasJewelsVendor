@@ -11,7 +11,6 @@ final class UpdateOrderStatusRequestDTO
         public readonly string $orderId,
 
         #[Assert\NotBlank(message: "L'estat és obligatori.")]
-        #[Assert\Choice(choices: ['processing', 'delivering', 'delivered'], message: "L'estat no és vàlid.")]
         public readonly string $status,
     ) {}
 }
